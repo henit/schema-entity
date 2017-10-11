@@ -147,7 +147,7 @@ Entity.resetReadOnly = (schema, entity, source) => {
  * @param {object} schemaPartial Object type partial schema
  * @return {object} Function container
  */
-Entity.getStandardFunctions = (schema, schemaPartial) => ({
+Entity.all = (schema, schemaPartial) => ({
     schema,
     schemaPartial,
 
