@@ -1,37 +1,8 @@
 import test from 'ava';
 import sinon from 'sinon';
 import Entity from '../Entity';
+import schema from './TestSchema';
 
-const stringSchema = {
-    type: 'string'
-};
-const schema = {
-    type: 'object',
-    properties: {
-        list: {
-            type: 'array',
-            items: {
-                type: 'string'
-            }
-        },
-        numeric: {
-            type: 'number',
-            readOnly: true
-        },
-        text: {
-            type: 'string'
-        },
-        sub: {
-            type: 'object',
-            properties: {
-                foo: { type: 'string', readOnly: true },
-                bar: { type: 'number', readOnly: true }
-            }
-        }
-    },
-    required: ['text'],
-    additionalProperties: false
-};
 const invalid = {
     text: 'foo',
     list: 123
@@ -50,23 +21,23 @@ const valid = {
 // Validation
 
 test('.assertValid valid throws on invalid subject', t => {
-    t.throws(() => Entity.assertValid(stringSchema, 123));
+    t.throws(() => Entity.assertValid({ type: 'string' }, 123));
     t.throws(() => Entity.assertValid(schema, invalid));
 
 });
 
 test('.assertValie dont throw on valid subject', t => {
-    t.notThrows(() => Entity.assertValid(stringSchema, '123'));
+    t.notThrows(() => Entity.assertValid({ type: 'string' }, '123'));
     t.notThrows(() => Entity.assertValid(schema, valid));
 });
 
 test('.validate return error on invalid subject', t => {
-    const error = Entity.validate(stringSchema, 234);
+    const error = Entity.validate({ type: 'string' }, 234);
     t.is(typeof error, 'object');
 });
 
 test('.validate return undefined on valid subject', t => {
-    const error = Entity.validate(stringSchema, '234');
+    const error = Entity.validate({ type: 'string' }, '234');
     t.is(error, undefined);
 });
 
